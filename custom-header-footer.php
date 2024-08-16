@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: SR Header Footer Builder
- * Description: Simple Elementor-based custom header and footer builder.
+ * Description: A Simple Elementor-based custom header and footer builder.
  * Version: 1.0
  * Author: Sohan Chowdhury
  * Text Domain: custom-header-footer

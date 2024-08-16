@@ -19,22 +19,29 @@ class Frontend {
     public function get_custom_header() {
         $header_id = $this->get_enabled_template('sehf_header');
         if ($header_id) {
-            $this->render_elementor_content($header_id);
+            $this->render_template_content($header_id);
         }
     }
 
     public function get_custom_footer() {
         $footer_id = $this->get_enabled_template('sehf_footer');
         if ($footer_id) {
-            $this->render_elementor_content($footer_id);
+            $this->render_template_content($footer_id);
         }
     }
 
-    public function render_elementor_content($post_id) {
-        if (class_exists('Elementor\Plugin')) {
+    public function render_template_content($post_id) {
+        $post_content = get_post_field('post_content', $post_id);
+
+        // Check if Elementor is used
+        if (class_exists('Elementor\Plugin') && \Elementor\Plugin::instance()->documents->get($post_id)->is_built_with_elementor()) {
             echo \Elementor\Plugin::instance()->frontend->get_builder_content_for_display($post_id);
+        }
+        // Check if Gutenberg is used
+        elseif (has_blocks($post_content)) {
+            echo do_blocks($post_content);
         } else {
-            echo apply_filters('the_content', get_post_field('post_content', $post_id));
+            echo apply_filters('the_content', $post_content);
         }
     }
 
